@@ -1,0 +1,309 @@
+{
+	"info": {
+		"_postman_id": "bd645c27-113c-4d1b-a54b-634bbddb0533",
+		"name": "PayStack_SubOperations",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CreateSubcription",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4d58cc97-1a06-48f4-b9fa-5732f3cfa8ff",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var response = pm.response.json();\r",
+							"pm.collectionVariables.set(\"subId\", response.data.id);\r",
+							"pm.collectionVariables.set(\"subCode\", response.data.subscription_code);\r",
+							"pm.collectionVariables.set(\"token\", response.data.email_token);\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "sk_test_294c17c5ac283efc8322ded62f73f7d199f021c9",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n    \"customer\": \"CUS_3uh2hdstsluujgk\", \r\n    \"plan\": \"PLN_oie8z5ju9ps61iy\" \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.paystack.co/subscription",
+					"protocol": "https",
+					"host": [
+						"api",
+						"paystack",
+						"co"
+					],
+					"path": [
+						"subscription"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EnableSubscription",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "sk_test_294c17c5ac283efc8322ded62f73f7d199f021c9",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n    \"code\": \"{{subCode}}\", \r\n    \"token\": \"{{token}}\" \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.paystack.co/subscription/enable",
+					"protocol": "https",
+					"host": [
+						"api",
+						"paystack",
+						"co"
+					],
+					"path": [
+						"subscription",
+						"enable"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FetchSubscription",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a4a25d30-e6e2-4a6b-84de-aa44fc34ebb4",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var response = pm.response.json();\r",
+							"pm.expect(response.data.status).to.eql(\"active\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "sk_test_294c17c5ac283efc8322ded62f73f7d199f021c9",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.paystack.co/subscription/{{subId}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"paystack",
+						"co"
+					],
+					"path": [
+						"subscription",
+						"{{subId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DisableSubscription",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "55ac3f9b-ebec-49de-83bf-6992efe874e7",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var response = pm.response.json();\r",
+							"pm.expect(response.message).to.eql(\"Subscription disabled successfully\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "sk_test_294c17c5ac283efc8322ded62f73f7d199f021c9",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n    \"code\": \"{{subCode}}\", \r\n    \"token\": \"{{token}}\" \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.paystack.co/subscription/disable",
+					"protocol": "https",
+					"host": [
+						"api",
+						"paystack",
+						"co"
+					],
+					"path": [
+						"subscription",
+						"disable"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FetchSubscriptionAfterDisable",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ac8e63f9-6318-4bb3-ab5f-040afd1f1524",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var response = pm.response.json();\r",
+							"pm.expect(response.data.status).to.eql(\"complete\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "sk_test_294c17c5ac283efc8322ded62f73f7d199f021c9",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.paystack.co/subscription/{{subId}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"paystack",
+						"co"
+					],
+					"path": [
+						"subscription",
+						"{{subId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "a57d99fd-3cf3-4221-b1b4-304c0380b0aa",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "10a79b93-002b-4049-ae77-694eb249e97d",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "f42e1810-2896-418b-81f9-d44e958bf81f",
+			"key": "pageId",
+			"value": 277190
+		},
+		{
+			"id": "0215837c-1638-4e30-ac6f-44006a9362fe",
+			"key": "subId",
+			"value": 177017
+		},
+		{
+			"id": "2a57f91a-4469-41d5-92cf-c23c6d870481",
+			"key": "token",
+			"value": "cb5kn99k3f0fdk9"
+		},
+		{
+			"id": "005d6095-b394-4e29-a9e0-c01a5ac961c8",
+			"key": "subCode",
+			"value": "SUB_aq9tyswp2f9nish"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
