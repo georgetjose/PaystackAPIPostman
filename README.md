@@ -1,6 +1,8 @@
 # PaystackAPIPostman
 
 https://paystack.com/docs/api/
+
+
 Scenario1:
 ============
 a)Create a new Payment Page 
